@@ -6,6 +6,8 @@ import Form from 'react-bootstrap/Form';
 import axios from 'axios';
 import useToken from '../../utils/useToken';
 import Header from '../Header/Header';
+import Pagination from '../Pagination/Pagination';
+
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -24,7 +26,7 @@ const Dashboard = () => {
     useEffect(() => {
         
         axios
-          .get(apiUrl+"cars", {
+          .get(apiUrl+"cars?page="+page, {
             headers: {
               Authorization: 'Bearer ' + token.token //the token is a variable which holds the token
             }
@@ -40,7 +42,7 @@ const Dashboard = () => {
                 setError(false);
             }, 5000);
           });
-    }, []);
+    }, [page]);
 
     const updateShippingStatus = (car, e) => {
         e.preventDefault();
@@ -111,7 +113,11 @@ const Dashboard = () => {
                 <tfoot>
                     <tr>
                         <td colSpan={5}>
-
+                            <Pagination 
+                                totalPages = {pages}
+                                page = {page}
+                                setPage = {setPage}
+                            />
                         </td>
                     </tr>
                 </tfoot>

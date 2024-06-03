@@ -1,0 +1,10 @@
+.pagination
+{
+    width: 100%;
+    align-content: center;
+}
+.pagination button
+{
+    margin-right:2px;
+
+}
