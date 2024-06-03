@@ -12,6 +12,9 @@ const Dashboard = () => {
     const [cars, setCars] = useState([]);
     const [error, setError] = useState(false);
     const [disable, setDisable] = useState('');
+    const [pages, setPages] = useState(0);
+    const [page, setPage] = useState(1);
+    const apiUrl = process.env.REACT_APP_API_URL;
     const token = useToken();
     const shipping_status = [];
     shipping_status[1] = 'Available';
@@ -19,14 +22,16 @@ const Dashboard = () => {
     shipping_status[3] = 'Delivered'
 
     useEffect(() => {
+        
         axios
-          .get("http://codingtest.local/api/cars", {
+          .get(apiUrl+"cars", {
             headers: {
               Authorization: 'Bearer ' + token.token //the token is a variable which holds the token
             }
            })
           .then((res) =>{
-            setCars(res.data);
+            setCars(res.data.data);
+            setPages(res.data.pages);
           }
           )
           .catch((err) => {
@@ -43,7 +48,7 @@ const Dashboard = () => {
         const data = {shipping_status: e.target.value}
         //console.log(data);
         axios
-          .put(`http://codingtest.local/api/cars/${car.id}`, data, {
+          .put(`${apiUrl}cars/${car.id}`, data, {
             headers: {
               Authorization: 'Bearer ' + token.token //the token is a variable which holds the token
             }
@@ -69,11 +74,13 @@ const Dashboard = () => {
             <h1>Cars</h1>
             <table className="table">
                 <thead>
-                    <th key="make">Make</th>
-                    <th key="model">Model</th>
-                    <th key="year">Year</th>
-                    <th key="vin">VIN</th>
-                    <th key="shippingstatus">Shipping Status</th>
+                    <tr>
+                        <th key="make">Make</th>
+                        <th key="model">Model</th>
+                        <th key="year">Year</th>
+                        <th key="vin">VIN</th>
+                        <th key="shippingstatus">Shipping Status</th>
+                    </tr>
                 </thead>
                 <tbody>
                     {cars && 
@@ -101,6 +108,13 @@ const Dashboard = () => {
                         )
                     }
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <td colSpan={5}>
+
+                        </td>
+                    </tr>
+                </tfoot>
             </table>
         </div>
         </div>

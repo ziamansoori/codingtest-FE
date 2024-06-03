@@ -17,12 +17,13 @@ const AddCar = () => {
     const [carMake, setCarMake] = useState([]);
     const [error, setError] = useState(false);
     const [yearOption, setYearOption] = useState([]);
+    const apiUrl = process.env.REACT_APP_API_URL;
     const token = useToken();
     let navigate = useNavigate();
 
     useEffect(() => {
         axios
-          .get("http://codingtest.local/api/cars-make", {
+          .get(`${apiUrl}cars-make`, {
             headers: {
               Authorization: 'Bearer ' + token.token //the token is a variable which holds the token
             }
@@ -51,7 +52,7 @@ const AddCar = () => {
         e.preventDefault();
         const data = {make_id: make, model: model, year: year, vin: vin};
         axios
-          .post("http://codingtest.local/api/cars", data, {
+          .post(`${apiUrl}cars`, data, {
             headers: {
               Authorization: 'Bearer ' + token.token //the token is a variable which holds the token
             }

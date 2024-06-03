@@ -14,6 +14,7 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(false);
+    const apiUrl = process.env.REACT_APP_API_URL;
     const { setToken } = useToken();
     let navigate = useNavigate();
 
@@ -22,7 +23,7 @@ const Login = () => {
         const user = { email, password };
         //console.log(`email: ${email}, password: ${password}`);
         axios
-          .post("http://codingtest.local/api/login", user)
+          .post(`${apiUrl}login`, user)
           .then((res) =>{
             console.log(res);
             setToken(res.data.token);
